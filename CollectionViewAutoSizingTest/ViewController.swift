@@ -10,9 +10,17 @@ import UIKit
 
 class ViewController: UIViewController, UICollectionViewDataSource {
     @IBOutlet weak var collectionView: UICollectionView!
+    // let heights:[CGFloat] = [200, 400]
+    let widths:[CGFloat] = [UIScreen.main.bounds.size.width, UIScreen.main.bounds.size.width / 2]
+    var count:Int = 0;
     
     let randomTexts = ["Aenean dapibus urna a ullamcorper malesuada. Ut tempor.",
                        "Sed venenatis ligula massa, a vulputate ipsum fringilla eget. Ut justo erat, facilisis id rhoncus cursus, fringilla at.",
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lobortis nibh metus, elementum tempus libero ornare vitae. Etiam sed leo pretium, consectetur turpis non, dapibus purus. Suspendisse potenti. Ut ut eros nunc. Cras nulla justo, porttitor non sapien at, iaculis.",
+        "Maecenas pellentesque sed magna in congue. Sed non lacus in mi posuere scelerisque. Aenean.",
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eget ex a velit tincidunt sodales. Donec elementum nisi at enim tempus, et rutrum erat semper. Phasellus ultricies est nec finibus.",
+        "Aenean dapibus urna a ullamcorper malesuada. Ut tempor.",
+        "Sed venenatis ligula massa, a vulputate ipsum fringilla eget. Ut justo erat, facilisis id rhoncus cursus, fringilla at.",
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lobortis nibh metus, elementum tempus libero ornare vitae. Etiam sed leo pretium, consectetur turpis non, dapibus purus. Suspendisse potenti. Ut ut eros nunc. Cras nulla justo, porttitor non sapien at, iaculis.",
         "Maecenas pellentesque sed magna in congue. Sed non lacus in mi posuere scelerisque. Aenean.",
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eget ex a velit tincidunt sodales. Donec elementum nisi at enim tempus, et rutrum erat semper. Phasellus ultricies est nec finibus."]
@@ -25,6 +33,15 @@ class ViewController: UIViewController, UICollectionViewDataSource {
             flowLayout.estimatedItemSize = CGSize(width: 1,height: 1)
         }
         collectionView.dataSource = self
+        
+        // To change width and/or height after time
+        let when = DispatchTime.now() + 5
+        DispatchQueue.main.asyncAfter(deadline: when, execute: {
+            print("test")
+            self.count = self.count + 1
+            self.collectionView.reloadData()
+        })
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -39,6 +56,8 @@ class ViewController: UIViewController, UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! Cell
         cell.descriptionLabel.text = randomTexts[indexPath.row]
+        // cell.heightConstraint.constant = heights[count];
+        cell.widthConstraint.constant = widths[count];
         return cell
     }
     
